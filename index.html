@@ -592,65 +592,74 @@ const now = new Date();
 const today = now.getUTCDay();
 const hour = now.getUTCHours();
 
-let text="";
+let eventText="";
+let taskText="";
 
 switch(today){
 
 case 1:
-if(hour < 20){
-text="⭐ Gear Enhancement (16:00 UTC)<br>• Complete stored Intel Missions<br><small>Tip: On other days DO NOT complete intel missions (except Venture/Triangle Maddie). Let them stack up to ~40.</small>";
+if(hour >=16 && hour <20){
+eventText="⚡ ACTIVE: Gear Enhancement";
 }else{
-text="✔ Today's main event finished.<br><small>Prepare resources for tomorrow.</small>";
+eventText="⭐ Gear Enhancement (16:00 UTC)";
 }
+taskText="• Complete stored Intel Missions<br><small>Tip: On other days DO NOT complete intel missions (except Venture/Triangle Maddie). Let them stack up to ~40.</small>";
 break;
 
 case 2:
-if(hour < 4){
-text="⭐ Construction Speed Up (00:00 UTC)<br><small>Tip: Do NOT complete intel missions today. Let them accumulate.</small>";
+if(hour >=0 && hour <4){
+eventText="⚡ ACTIVE: Construction Speed Up";
 }else{
-text="✔ Today's main event finished.<br><small>Save resources for tomorrow.</small>";
+eventText="⭐ Construction Speed Up (00:00 UTC)";
 }
+taskText="<small>Tip: Do NOT complete intel missions today. Let them accumulate.</small>";
 break;
 
 case 3:
-if(hour < 16){
-text="⭐ Behemoth (12:00 UTC)<br>• Complete stored Intel Missions<br>• Spend Clash Medals<br><small>Tip: Intel missions should be saved on other days.</small>";
+if(hour >=12 && hour <16){
+eventText="⚡ ACTIVE: Behemoth";
 }else{
-text="✔ Today's main event finished.<br><small>Prepare for Hero Fragments tomorrow.</small>";
+eventText="⭐ Behemoth (12:00 UTC)";
 }
+taskText="• Complete stored Intel Missions<br>• Spend Clash Medals<br><small>Tip: Intel missions should be saved on other days.</small>";
 break;
 
 case 4:
-if(hour < 16){
-text="⭐ Hero Fragments (12:00 UTC)<br>• Recruitment<br><small>Tip: Continue saving intel missions.</small>";
+if(hour >=12 && hour <16){
+eventText="⚡ ACTIVE: Hero Fragments";
 }else{
-text="✔ Today's main event finished.<br><small>Prepare Construction Speed Ups for tomorrow.</small>";
+eventText="⭐ Hero Fragments (12:00 UTC)";
 }
+taskText="• Recruitment<br><small>Tip: Continue saving intel missions.</small>";
 break;
 
 case 5:
-if(hour < 16){
-text="⭐ Construction Speed Up (12:00 UTC)<br>• Complete stored Intel Missions";
+if(hour >=12 && hour <16){
+eventText="⚡ ACTIVE: Construction Speed Up";
 }else{
-text="✔ Today's main event finished.";
+eventText="⭐ Construction Speed Up (12:00 UTC)";
 }
+taskText="• Complete stored Intel Missions";
 break;
 
 case 6:
-if(hour < 20){
-text="⭐ Research Speed Up (16:00 UTC)<br>• Enemy Kills | Eggs | Burrows<br><small>Tip: Do not complete intel missions today.</small>";
+if(hour >=16 && hour <20){
+eventText="⚡ ACTIVE: Research Speed Up";
 }else{
-text="✔ Today's main event finished.";
+eventText="⭐ Research Speed Up (16:00 UTC)";
 }
+taskText="• Enemy Kills | Eggs | Burrows<br><small>Tip: Do not complete intel missions today.</small>";
 break;
 
 case 0:
-text="◆ Ranking stacks available<br>• Kill Infected | Fiends<br><small>Tip: Continue saving intel missions.</small>";
+eventText="◆ Ranking stacks available";
+taskText="• Kill Infected | Fiends<br><small>Tip: Continue saving intel missions.</small>";
 break;
 
 }
 
-document.getElementById("todayPanel").innerHTML=text;
+document.getElementById("todayPanel").innerHTML =
+eventText+"<br>"+taskText;
 
 }
 
