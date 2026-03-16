@@ -213,6 +213,60 @@ return {start:eventStart,end:eventEnd};
 
 }
 
+function highlightTask(){
+
+let now = new Date();
+
+let activeRow = null;
+let nextRow = null;
+let nextTime = null;
+
+document.querySelectorAll(".time").forEach(el=>{
+
+let day = parseInt(el.dataset.day);
+let hour = parseInt(el.dataset.hour);
+
+let eventStart = new Date();
+eventStart.setUTCHours(hour,0,0,0);
+
+let diff = day - eventStart.getUTCDay();
+if(diff < 0) diff += 7;
+
+eventStart.setUTCDate(eventStart.getUTCDate()+diff);
+
+let eventEnd = new Date(eventStart);
+eventEnd.setHours(eventEnd.getHours()+4);
+
+let row = el.closest(".row");
+
+if(now >= eventStart && now < eventEnd){
+activeRow = row;
+}
+
+if(eventStart > now){
+if(!nextTime || eventStart < nextTime){
+nextTime = eventStart;
+nextRow = row;
+}
+}
+
+});
+
+document.querySelectorAll(".row").forEach(r=>{
+r.style.background="";
+});
+
+if(activeRow){
+activeRow.style.background="#2a2a2a";
+activeRow.style.borderRadius="6px";
+}
+else if(nextRow){
+nextRow.style.background="#1d2b3a";
+nextRow.style.borderRadius="6px";
+}
+
+}
+  
 function updateTimer(){
 
 let now=new Date();
@@ -265,8 +319,13 @@ timer.innerHTML=
 
 }
 
-setInterval(updateTimer,1000);
+setInterval(function(){
 updateTimer();
+highlightTask();
+},1000);
+
+updateTimer();
+highlightTask();
 
 function updateTodayPanel(){
 
