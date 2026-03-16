@@ -90,39 +90,59 @@ font-weight:bold;
 </div>
 
 <div class="card triple">
-<h2>⭐ Triple Stacks</h2>
+<h2>◆ Triple Stack (Alliance Duel | Turbo Turtle | Power Play)</h2>
 
-<div class="row"><span>Mon</span><span class="time" data-day="1" data-hour="16">Gear</span></div>
-<div class="row"><span>Tue</span><span class="time" data-day="2" data-hour="0">Construction</span></div>
+<div class="row"><span>Mon</span><span class="time" data-day="1" data-hour="16">Gear Enhancement</span></div>
+<div class="row"><span>Tue</span><span class="time" data-day="2" data-hour="0">Construction Speed Up</span></div>
 <div class="row"><span>Wed</span><span class="time" data-day="3" data-hour="12">Behemoth</span></div>
-<div class="row"><span>Thu</span><span class="time" data-day="4" data-hour="12">Hero Frags</span></div>
-<div class="row"><span>Fri</span><span class="time" data-day="5" data-hour="12">Construction</span></div>
-<div class="row"><span>Sat</span><span class="time" data-day="6" data-hour="16">Research</span></div>
+<div class="row"><span>Thu</span><span class="time" data-day="4" data-hour="12">Hero Fragments</span></div>
+<div class="row"><span>Fri</span><span class="time" data-day="5" data-hour="12">Construction Speed Up</span></div>
+<div class="row"><span>Sat</span><span class="time" data-day="6" data-hour="16">Research Speed Up</span></div>
 
 </div>
 
-<div class="card double">
-<h2>◆ Double Stacks</h2>
 
-<div class="row"><span>Mon</span><span class="time" data-day="1" data-hour="12">Research</span></div>
-<div class="row"><span>Tue</span><span class="time" data-day="2" data-hour="12">Gear</span></div>
-<div class="row"><span>Wed</span><span class="time" data-day="3" data-hour="4">Research</span></div>
-<div class="row"><span>Sat</span><span class="time" data-day="6" data-hour="8">Construction</span></div>
-<div class="row"><span>Sun</span><span class="time" data-day="0" data-hour="0">Hero Frags</span></div>
-<div class="row"><span>Sun</span><span class="time" data-day="0" data-hour="12">Research</span></div>
-<div class="row"><span>Sun</span><span class="time" data-day="0" data-hour="16">Gear</span></div>
+<div class="card double">
+<h2>◆ Double Stack (For Rankings)</h2>
+
+<div class="row"><span>Mon</span><span class="time" data-day="1" data-hour="12">Research Speed Up</span></div>
+<div class="row"><span>Tue</span><span class="time" data-day="2" data-hour="12">Gear Enhancement</span></div>
+<div class="row"><span>Wed</span><span class="time" data-day="3" data-hour="4">Research Power Up</span></div>
+<div class="row"><span>Fri</span><span class="time" data-day="5" data-hour="0">Gear Enhancement</span></div>
+<div class="row"><span>Fri</span><span class="time" data-day="5" data-hour="12">Construction Power Up</span></div>
+<div class="row"><span>Sat</span><span class="time" data-day="6" data-hour="8">Construction Speed Up</span></div>
+<div class="row"><span>Sun</span><span class="time" data-day="0" data-hour="0">Hero Fragments</span></div>
+<div class="row"><span>Sun</span><span class="time" data-day="0" data-hour="4">Construction Speed Up</span></div>
+<div class="row"><span>Sun</span><span class="time" data-day="0" data-hour="12">Research Speed Up</span></div>
+<div class="row"><span>Sun</span><span class="time" data-day="0" data-hour="16">Gear Enhancement</span></div>
 <div class="row"><span>Sun</span><span class="time" data-day="0" data-hour="20">Behemoth</span></div>
 
 </div>
 
-<div class="card save">
-<h2>📦 Save Resources</h2>
 
-<div class="row"><span>Research</span><span>Wed / Sat</span></div>
-<div class="row"><span>Construction</span><span>Tue / Fri</span></div>
-<div class="row"><span>Hero Frags</span><span>Thu</span></div>
+<div class="card save">
+<h2>◆ Day Exclusive</h2>
+
+<div class="row"><span>Mon | Wed | Fri</span><span>Intel Missions</span></div>
+<div class="row"><span>Wed</span><span>Spend Clash Medals</span></div>
+<div class="row"><span>Thu</span><span>Recruitment</span></div>
+<div class="row"><span>Sat</span><span>Enemy Kills | Eggs | Burrows</span></div>
+<div class="row"><span>Sun</span><span>Kill Infected | Fiends</span></div>
+
+</div>
+
+
+<div class="card save">
+<h2>◆ SAVE Resources</h2>
+
+<div class="row"><span>Research</span><span>Wed | Sat</span></div>
+<div class="row"><span>Construction</span><span>Tue | Fri</span></div>
+<div class="row"><span>Hero Fragments</span><span>Thu</span></div>
 <div class="row"><span>Behemoth</span><span>Wed</span></div>
-<div class="row"><span>Gear</span><span>Mon / Tue / Sun</span></div>
+<div class="row"><span>Gear Enhancement</span><span>Mon | Tue | Sun</span></div>
+<div class="row"><span>Clash Medals</span><span>Wed</span></div>
+<div class="row"><span>Intel Missions</span><span>Mon | Wed | Fri</span></div>
+<div class="row"><span>Recruitment</span><span>Thu</span></div>
 
 </div>
 
@@ -136,17 +156,15 @@ font-weight:bold;
 document.getElementById("tz").innerText =
 Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-const elements=document.querySelectorAll(".time");
 
-elements.forEach(el=>{
+/* Convert UTC event times to local timezone */
+
+document.querySelectorAll(".time").forEach(el=>{
 
 let day=parseInt(el.dataset.day);
 let hour=parseInt(el.dataset.hour);
 
-let now=new Date();
-
 let event=new Date();
-
 event.setUTCHours(hour,0,0,0);
 
 let diff=day-event.getUTCDay();
@@ -154,13 +172,18 @@ if(diff<0) diff+=7;
 
 event.setUTCDate(event.getUTCDate()+diff);
 
-el.innerText=event.toLocaleString([],{
+let local=event.toLocaleString([],{
 weekday:'short',
 hour:'2-digit',
 minute:'2-digit'
-})+" "+el.innerText;
+});
+
+el.innerText = local + " — " + el.innerText;
 
 });
+
+
+/* Triple stack events used for countdown */
 
 const events=[
 {d:1,h:16},
@@ -171,6 +194,7 @@ const events=[
 {d:6,h:16}
 ];
 
+
 function nextEvent(){
 
 let now=new Date();
@@ -179,7 +203,6 @@ let next=null;
 events.forEach(e=>{
 
 let event=new Date();
-
 event.setUTCHours(e.h,0,0,0);
 
 let diff=e.d-event.getUTCDay();
@@ -187,8 +210,9 @@ if(diff<0) diff+=7;
 
 event.setUTCDate(event.getUTCDate()+diff);
 
-if(event>now && (!next || event<next))
+if(event>now && (!next || event<next)){
 next=event;
+}
 
 });
 
@@ -196,7 +220,8 @@ return next;
 
 }
 
-function update(){
+
+function updateTimer(){
 
 let next=nextEvent();
 let now=new Date();
@@ -206,13 +231,18 @@ let diff=next-now;
 let h=Math.floor(diff/1000/60/60);
 let m=Math.floor((diff/1000/60)%60);
 
-document.getElementById("timer").innerText=
+document.getElementById("timer").innerText =
 h+"h "+m+"m";
 
 }
 
-setInterval(update,1000);
-update();
+
+setInterval(updateTimer,1000);
+updateTimer();
+
+
+
+/* Notification system */
 
 function enableNotifications(){
 
