@@ -93,10 +93,15 @@ font-weight:bold;
 <div class="subtitle">Alliance Event Planner</div>
 
 <div class="card">
-<b style="color:#ffd54a;">Task Hunter</b>
+<b style="color:#ffd54a;">Task Hunter - Triple Stack</b>
 <div class="timer" id="timer"></div>
 </div>
 
+<div class="card">
+<b style="color:#4da6ff;">Task Hunter – Double Stack</b>
+<div class="timer" id="doubleTimer"></div>
+</div>
+  
 <div class="card">
 <h2>📅 Today</h2>
 <div id="todayPanel"></div>
@@ -196,6 +201,20 @@ const events=[
 {d:6,h:16,name:"Research Speed Up"}
 ];
 
+const doubleEvents=[
+{d:1,h:12,name:"Research Speed Up"},
+{d:2,h:12,name:"Gear Enhancement"},
+{d:3,h:4,name:"Research Power Up"},
+{d:5,h:0,name:"Gear Enhancement"},
+{d:5,h:12,name:"Construction Power Up"},
+{d:6,h:8,name:"Construction Speed Up"},
+{d:0,h:0,name:"Hero Fragments"},
+{d:0,h:4,name:"Construction Speed Up"},
+{d:0,h:12,name:"Research Speed Up"},
+{d:0,h:16,name:"Gear Enhancement"},
+{d:0,h:20,name:"Behemoth"}
+];
+  
 function getEventTimes(e){
 
 let eventStart=new Date();
@@ -315,18 +334,81 @@ let m=Math.floor((diff/1000/60)%60);
 timer.innerHTML=
 "Next Stack Window<br>"+h+"h "+m+"m";
 
+function updateDoubleTimer(){
+
+let now=new Date();
+let active=null;
+let next=null;
+
+doubleEvents.forEach(e=>{
+
+let start=new Date();
+start.setUTCHours(e.h,0,0,0);
+
+let diff=e.d-start.getUTCDay();
+if(diff<0) diff+=7;
+
+start.setUTCDate(start.getUTCDate()+diff);
+
+let end=new Date(start);
+end.setHours(end.getHours()+4);
+
+if(now>=start && now<end){
+active={start,end,name:e.name};
+}
+
+if(start>now && (!next || start<next.start)){
+next={start,name:e.name};
+}
+
+});
+
+let el=document.getElementById("doubleTimer");
+
+if(active){
+
+let start=active.start.toLocaleTimeString([],{
+hour:'2-digit',
+minute:'2-digit'
+});
+
+let end=active.end.toLocaleTimeString([],{
+hour:'2-digit',
+minute:'2-digit'
+});
+
+el.innerHTML="<b>ACTIVE:</b> "+active.name+"<br>"+start+" - "+end;
+
+}
+else{
+
+let diff=next.start-now;
+
+let h=Math.floor(diff/1000/60/60);
+let m=Math.floor((diff/1000/60)%60);
+
+el.innerHTML="Next: "+next.name+"<br>"+h+"h "+m+"m";
+
+}
+
+}
+  
 }
 
 }
 
 setInterval(function(){
 updateTimer();
+updateDoubleTimer();
 highlightTask();
 },1000);
 
 updateTimer();
+updateDoubleTimer();  
 highlightTask();
 
+  
+  
 function updateTodayPanel(){
 
 const today = new Date().getUTCDay();
