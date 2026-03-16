@@ -454,7 +454,11 @@ function highlightToday(){
 
 let today = new Date().getUTCDay();
 
-document.querySelectorAll(".time").forEach(el=>{
+document.querySelectorAll(".card.triple .row").forEach(r=>{
+r.classList.remove("todayRow");
+});
+
+document.querySelectorAll(".card.triple .time").forEach(el=>{
 
 let day = parseInt(el.dataset.day);
 let row = el.closest(".row");
