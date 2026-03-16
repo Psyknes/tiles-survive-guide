@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tiles Survive Alliance Planner</title>
-
+  
 <style>
 
 body{
@@ -84,6 +84,34 @@ color:black;
 font-weight:bold;
 }
 
+.hunterRow{
+display:flex;
+gap:10px;
+margin-top:14px;
+}
+
+.hunterRow .card{
+flex:1;
+}
+
+.hunterTriple{
+border-left:6px solid #ffd700;
+background:#1c1a10;
+}
+
+.hunterTriple b{
+color:#ffd700;
+}
+
+.hunterDouble{
+border-left:6px solid #4da6ff;
+background:#141922;
+}
+
+.hunterDouble b{
+color:#6fb6ff;
+}  
+  
 </style>
 </head>
 
@@ -92,14 +120,18 @@ font-weight:bold;
 <h1>Tiles Survive</h1>
 <div class="subtitle">Alliance Event Planner</div>
 
-<div class="card">
-<b style="color:#ffd54a;">Task Hunter - Triple Stack</b>
+<div class="hunterRow">
+
+<div class="card hunterTriple">
+<b>Task Hunter – Triple Stack</b>
 <div class="timer" id="timer"></div>
 </div>
 
-<div class="card">
-<b style="color:#4da6ff;">Task Hunter – Double Stack</b>
+<div class="card hunterDouble">
+<b>Task Hunter – Double Stack</b>
 <div class="timer" id="doubleTimer"></div>
+</div>
+
 </div>
   
 <div class="card">
