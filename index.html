@@ -97,6 +97,10 @@ font-weight:bold;
 <div class="timer" id="timer"></div>
 </div>
 
+<div class="card">
+<h2>📅 Today</h2>
+<div id="todayPanel"></div>
+</div>
 
 <div class="card triple">
 <h2>◆ Triple Stack (Alliance Duel | Turbo Turtle | Power Play)</h2>
@@ -293,6 +297,50 @@ highlightNext();
 setInterval(updateTimer,1000);
 updateTimer();
 
+function updateTodayPanel(){
+
+const today = new Date().getUTCDay();
+
+let text="";
+
+switch(today){
+
+case 1:
+text="⭐ Gear Enhancement (16:00 UTC)<br>• Stack Intel Missions";
+break;
+
+case 2:
+text="⭐ Construction Speed Up (00:00 UTC)";
+break;
+
+case 3:
+text="⭐ Behemoth (12:00 UTC)<br>• Stack Intel Missions<br>• Spend Clash Medals";
+break;
+
+case 4:
+text="⭐ Hero Fragments (12:00 UTC)<br>• Recruitment";
+break;
+
+case 5:
+text="⭐ Construction Speed Up (12:00 UTC)<br>• Stack Intel Missions";
+break;
+
+case 6:
+text="⭐ Research Speed Up (16:00 UTC)<br>• Enemy Kills | Eggs | Burrows";
+break;
+
+case 0:
+text="◆ Ranking Stacks Available<br>• Kill Infected | Fiends";
+break;
+
+}
+
+document.getElementById("todayPanel").innerHTML=text;
+
+}
+
+updateTodayPanel();
+  
 </script>
 
 </body>
