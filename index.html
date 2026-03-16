@@ -52,7 +52,7 @@ padding:8px 0;
 border-bottom:1px solid #222;
 gap:10px;
 }
-
+  
 .row:last-child{
 border-bottom:none;
 }
@@ -213,6 +213,13 @@ margin:auto;
 height:90px;
 margin-bottom:8px;
 animation: emblemGlow 3.5s infinite ease-in-out;
+}
+
+.todayRow{
+background:#2b2b2b;
+border-left:4px solid #ffd700;
+border-radius:6px;
+box-shadow:0 0 6px rgba(255,215,0,0.4);  
 }
   
 </style>
@@ -443,6 +450,23 @@ nextRow.style.borderRadius="6px";
 
 }
 
+function highlightToday(){
+
+let today = new Date().getUTCDay();
+
+document.querySelectorAll(".time").forEach(el=>{
+
+let day = parseInt(el.dataset.day);
+let row = el.closest(".row");
+
+if(day === today){
+row.classList.add("todayRow");
+}
+
+});
+
+}
+  
 function convertTimes(){
 
 document.querySelectorAll(".time").forEach(el=>{
@@ -610,6 +634,7 @@ convertTimes();
 updateTimer();
 updateDoubleTimer();  
 highlightTask();
+highlightToday();  
 
   
   
