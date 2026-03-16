@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiles Survive Event Dashboard</title>
+
+<style>
+body{
+background:#0b0b0b;
+color:white;
+font-family:system-ui;
+margin:0;
+padding:12px;
+}
+
+h1{
+text-align:center;
+color:#ffd54a;
+margin-bottom:5px;
+}
+
+.subtitle{
+text-align:center;
+font-size:13px;
+opacity:.7;
+margin-bottom:15px;
+}
+
+.card{
+background:#151515;
+border-radius:12px;
+padding:14px;
+margin-top:14px;
+}
+
+.card h2{
+margin:0 0 10px 0;
+font-size:18px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+padding:6px 0;
+border-bottom:1px solid #222;
+}
+
+.row:last-child{border-bottom:none;}
+
+.time{
+color:#ffd54a;
+font-weight:bold;
+}
+
+.triple{border-left:5px solid gold;}
+.double{border-left:5px solid #4da6ff;}
+.save{border-left:5px solid #4dff88;}
+
+.timer{
+text-align:center;
+font-size:20px;
+color:#4da6ff;
+}
+
+button{
+margin-top:10px;
+width:100%;
+padding:10px;
+border:none;
+border-radius:8px;
+background:#ffd54a;
+color:black;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Tiles Survive</h1>
+<div class="subtitle">Alliance Event Planner</div>
+
+<div class="card">
+<b>Your Timezone:</b> <span id="tz"></span>
+</div>
+
+<div class="card">
+<b>Next Stack Window</b>
+<div class="timer" id="timer"></div>
+</div>
+
+<div class="card triple">
+<h2>⭐ Triple Stacks</h2>
+
+<div class="row"><span>Mon</span><span class="time" data-day="1" data-hour="16">Gear</span></div>
+<div class="row"><span>Tue</span><span class="time" data-day="2" data-hour="0">Construction</span></div>
+<div class="row"><span>Wed</span><span class="time" data-day="3" data-hour="12">Behemoth</span></div>
+<div class="row"><span>Thu</span><span class="time" data-day="4" data-hour="12">Hero Frags</span></div>
+<div class="row"><span>Fri</span><span class="time" data-day="5" data-hour="12">Construction</span></div>
+<div class="row"><span>Sat</span><span class="time" data-day="6" data-hour="16">Research</span></div>
+
+</div>
+
+<div class="card double">
+<h2>◆ Double Stacks</h2>
+
+<div class="row"><span>Mon</span><span class="time" data-day="1" data-hour="12">Research</span></div>
+<div class="row"><span>Tue</span><span class="time" data-day="2" data-hour="12">Gear</span></div>
+<div class="row"><span>Wed</span><span class="time" data-day="3" data-hour="4">Research</span></div>
+<div class="row"><span>Sat</span><span class="time" data-day="6" data-hour="8">Construction</span></div>
+<div class="row"><span>Sun</span><span class="time" data-day="0" data-hour="0">Hero Frags</span></div>
+<div class="row"><span>Sun</span><span class="time" data-day="0" data-hour="12">Research</span></div>
+<div class="row"><span>Sun</span><span class="time" data-day="0" data-hour="16">Gear</span></div>
+<div class="row"><span>Sun</span><span class="time" data-day="0" data-hour="20">Behemoth</span></div>
+
+</div>
+
+<div class="card save">
+<h2>📦 Save Resources</h2>
+
+<div class="row"><span>Research</span><span>Wed / Sat</span></div>
+<div class="row"><span>Construction</span><span>Tue / Fri</span></div>
+<div class="row"><span>Hero Frags</span><span>Thu</span></div>
+<div class="row"><span>Behemoth</span><span>Wed</span></div>
+<div class="row"><span>Gear</span><span>Mon / Tue / Sun</span></div>
+
+</div>
+
+<div class="card">
+<h2>🔔 Event Reminder</h2>
+<button onclick="enableNotifications()">Enable Reminder</button>
+</div>
+
+<script>
+
+document.getElementById("tz").innerText =
+Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+const elements=document.querySelectorAll(".time");
+
+elements.forEach(el=>{
+
+let day=parseInt(el.dataset.day);
+let hour=parseInt(el.dataset.hour);
+
+let now=new Date();
+
+let event=new Date();
+
+event.setUTCHours(hour,0,0,0);
+
+let diff=day-event.getUTCDay();
+if(diff<0) diff+=7;
+
+event.setUTCDate(event.getUTCDate()+diff);
+
+el.innerText=event.toLocaleString([],{
+weekday:'short',
+hour:'2-digit',
+minute:'2-digit'
+})+" "+el.innerText;
+
+});
+
+const events=[
+{d:1,h:16},
+{d:2,h:0},
+{d:3,h:12},
+{d:4,h:12},
+{d:5,h:12},
+{d:6,h:16}
+];
+
+function nextEvent(){
+
+let now=new Date();
+let next=null;
+
+events.forEach(e=>{
+
+let event=new Date();
+
+event.setUTCHours(e.h,0,0,0);
+
+let diff=e.d-event.getUTCDay();
+if(diff<0) diff+=7;
+
+event.setUTCDate(event.getUTCDate()+diff);
+
+if(event>now && (!next || event<next))
+next=event;
+
+});
+
+return next;
+
+}
+
+function update(){
+
+let next=nextEvent();
+let now=new Date();
+
+let diff=next-now;
+
+let h=Math.floor(diff/1000/60/60);
+let m=Math.floor((diff/1000/60)%60);
+
+document.getElementById("timer").innerText=
+h+"h "+m+"m";
+
+}
+
+setInterval(update,1000);
+update();
+
+function enableNotifications(){
+
+Notification.requestPermission().then(permission=>{
+if(permission==="granted"){
+alert("Notifications enabled!");
+}
+});
+
+}
+
+</script>
+
+</body>
+</html>
