@@ -188,130 +188,82 @@ font-weight:bold;
 <script>
 
 const events=[
-{d:1,h:16},
-{d:2,h:0},
-{d:3,h:12},
-{d:4,h:12},
-{d:5,h:12},
-{d:6,h:16}
+{d:1,h:16,name:"Gear Enhancement"},
+{d:2,h:0,name:"Construction Speed Up"},
+{d:3,h:12,name:"Behemoth"},
+{d:4,h:12,name:"Hero Fragments"},
+{d:5,h:12,name:"Construction Speed Up"},
+{d:6,h:16,name:"Research Speed Up"}
 ];
 
+function getEventTimes(e){
 
-function convertTimes(){
+let eventStart=new Date();
+eventStart.setUTCHours(e.h,0,0,0);
 
-document.querySelectorAll(".time").forEach(el=>{
-
-let day=parseInt(el.dataset.day);
-let hour=parseInt(el.dataset.hour);
-
-let event=new Date();
-event.setUTCHours(hour,0,0,0);
-
-let diff=day-event.getUTCDay();
+let diff=e.d-eventStart.getUTCDay();
 if(diff<0) diff+=7;
 
-event.setUTCDate(event.getUTCDate()+diff);
+eventStart.setUTCDate(eventStart.getUTCDate()+diff);
 
-let local=event.toLocaleTimeString([],{
-hour:'2-digit',
-minute:'2-digit'
-});
+let eventEnd=new Date(eventStart);
+eventEnd.setHours(eventEnd.getHours()+4);
 
-el.innerText=local+" — "+el.innerText;
-
-});
+return {start:eventStart,end:eventEnd};
 
 }
 
-
-function nextEvent(){
+function updateTimer(){
 
 let now=new Date();
+let active=null;
 let next=null;
 
 events.forEach(e=>{
 
-let event=new Date();
-event.setUTCHours(e.h,0,0,0);
+let times=getEventTimes(e);
 
-let diff=e.d-event.getUTCDay();
-if(diff<0) diff+=7;
+if(now>=times.start && now<times.end){
+active={...times,name:e.name};
+}
 
-event.setUTCDate(event.getUTCDate()+diff);
-
-if(event>now && (!next||event<next)){
-next=event;
+if(times.start>now && (!next || times.start<next.start)){
+next={...times,name:e.name};
 }
 
 });
 
-return next;
+let timer=document.getElementById("timer");
 
-}
+if(active){
 
+let start=active.start.toLocaleTimeString([],{
+hour:'2-digit',
+minute:'2-digit'
+});
 
-function updateTimer(){
+let end=active.end.toLocaleTimeString([],{
+hour:'2-digit',
+minute:'2-digit'
+});
 
-let next=nextEvent();
-let now=new Date();
+timer.innerHTML=
+"<b>ACTIVE:</b> "+active.name+
+"<br>"+start+" - "+end;
 
-let diff=next-now;
+}else{
+
+let diff=next.start-now;
 
 let h=Math.floor(diff/1000/60/60);
 let m=Math.floor((diff/1000/60)%60);
 
-document.getElementById("timer").innerText=h+"h "+m+"m";
+timer.innerHTML=
+"Next Stack Window<br>"+h+"h "+m+"m";
 
 }
 
-
-function highlightNext(){
-
-let now=new Date();
-let closest=null;
-let row=null;
-
-document.querySelectorAll(".time").forEach(el=>{
-
-let day=parseInt(el.dataset.day);
-let hour=parseInt(el.dataset.hour);
-
-let event=new Date();
-event.setUTCHours(hour,0,0,0);
-
-let diff=day-event.getUTCDay();
-if(diff<0) diff+=7;
-
-event.setUTCDate(event.getUTCDate()+diff);
-
-if(event>now && (!closest||event<closest)){
-closest=event;
-row=el.closest(".row");
 }
-
-});
-
-if(row){
-row.style.background="#2a2a2a";
-row.style.borderRadius="6px";
-}
-
-}
-
-
-function enableNotifications(){
-
-Notification.requestPermission().then(permission=>{
-if(permission==="granted"){
-alert("Notifications enabled!");
-}
-});
-
-}
-
-
-convertTimes();
-highlightNext();
 
 setInterval(updateTimer,1000);
 updateTimer();
