@@ -164,12 +164,28 @@ margin-bottom:12px;
 display:none;
 font-size:16px;
 }  
+
+@keyframes emblemGlow{
+0%{filter: drop-shadow(0 0 4px rgba(255,215,0,.25));}
+50%{filter: drop-shadow(0 0 10px rgba(255,215,0,.45));}
+100%{filter: drop-shadow(0 0 4px rgba(255,215,0,.25));}
+}
+
+.allianceLogo{
+display:block;
+margin:auto;
+height:90px;
+margin-bottom:8px;
+animation: emblemGlow 4s infinite ease-in-out;
+}
   
 </style>
 </head>
 
 <body>
 
+<img src="chillin_logo_clean_v2.png" class="allianceLogo">
+ 
 <h1>Tiles Survive</h1>
 <div class="subtitle">Alliance Event Planner</div>
 <div id="activeBanner" class="activeBanner"></div>
