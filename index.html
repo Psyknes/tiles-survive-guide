@@ -124,7 +124,35 @@ background:#141922;
 .hunterDouble b{
 color:#6fb6ff;
 }  
- 
+
+.ghoulionCard{
+border-left:6px solid #ff5c5c;
+background:#1b1111;
+}
+
+.ghoulionRow{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.ghoulionIcon{
+width:50px;
+height:50px;
+border-radius:50%;
+}
+
+.ghoulionTitle{
+font-size:16px;
+color:#ff6a6a;
+}
+
+.ghoulionTimer{
+font-size:18px;
+color:#ffd54a;
+margin-top:4px;
+}
+  
 </style>
 </head>
 
@@ -133,6 +161,23 @@ color:#6fb6ff;
 <h1>Tiles Survive</h1>
 <div class="subtitle">Alliance Event Planner</div>
 
+<div class="card ghoulionCard">
+
+<div class="ghoulionRow">
+
+<img src="ghoulion.png" class="ghoulionIcon">
+
+<div>
+
+<b class="ghoulionTitle">Ghoulion Pursuit</b>
+<div id="ghoulionTimer" class="ghoulionTimer"></div>
+
+</div>
+
+</div>
+
+</div>
+  
 <div class="hunterRow">
 
 <div class="card hunterTriple">
@@ -536,6 +581,32 @@ document.getElementById("todayPanel").innerHTML=text;
 }
 
 updateTodayPanel();
+
+const ghoulionStart = new Date("2025-07-19T12:45:00Z");
+const ghoulionInterval = 48 * 60 * 60 * 1000;
+
+function updateGhoulion(){
+
+let now = new Date();
+
+let diff = now - ghoulionStart;
+
+let cycles = Math.floor(diff / ghoulionInterval) + 1;
+
+let next = new Date(ghoulionStart.getTime() + cycles * ghoulionInterval);
+
+let remaining = next - now;
+
+let h = Math.floor(remaining / 1000 / 60 / 60);
+let m = Math.floor((remaining / 1000 / 60) % 60);
+
+document.getElementById("ghoulionTimer").innerHTML =
+"Next Hunt<br>"+h+"h "+m+"m";
+
+}
+
+setInterval(updateGhoulion,1000);
+updateGhoulion();  
   
 </script>
 
