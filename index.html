@@ -336,58 +336,70 @@ timer.innerHTML=
 
 function updateDoubleTimer(){
 
-let now=new Date();
-let active=null;
-let next=null;
+let now = new Date();
+
+let active = null;
+let next = null;
 
 doubleEvents.forEach(e=>{
 
-let start=new Date();
+let start = new Date();
 start.setUTCHours(e.h,0,0,0);
 
-let diff=e.d-start.getUTCDay();
-if(diff<0) diff+=7;
+let diff = e.d - start.getUTCDay();
+if(diff < 0) diff += 7;
 
 start.setUTCDate(start.getUTCDate()+diff);
 
-let end=new Date(start);
+let end = new Date(start);
 end.setHours(end.getHours()+4);
 
-if(now>=start && now<end){
-active={start,end,name:e.name};
+if(now >= start && now < end){
+active = {start,end,name:e.name};
 }
 
-if(start>now && (!next || start<next.start)){
-next={start,name:e.name};
+if(start > now){
+if(!next || start < next.start){
+next = {start,name:e.name};
+}
 }
 
 });
 
-let el=document.getElementById("doubleTimer");
+let el = document.getElementById("doubleTimer");
 
 if(active){
 
-let start=active.start.toLocaleTimeString([],{
+let start = active.start.toLocaleTimeString([],{
 hour:'2-digit',
 minute:'2-digit'
 });
 
-let end=active.end.toLocaleTimeString([],{
+let end = active.end.toLocaleTimeString([],{
 hour:'2-digit',
 minute:'2-digit'
 });
 
-el.innerHTML="<b>ACTIVE:</b> "+active.name+"<br>"+start+" - "+end;
+el.innerHTML =
+"<b>ACTIVE:</b> "+active.name+
+"<br>"+start+" - "+end;
+
+}
+else if(next){
+
+let diff = next.start - now;
+
+let h = Math.floor(diff/1000/60/60);
+let m = Math.floor((diff/1000/60)%60);
+
+el.innerHTML =
+"Next: "+next.name+
+"<br>"+h+"h "+m+"m";
 
 }
 else{
 
-let diff=next.start-now;
-
-let h=Math.floor(diff/1000/60/60);
-let m=Math.floor((diff/1000/60)%60);
-
-el.innerHTML="Next: "+next.name+"<br>"+h+"h "+m+"m";
+el.innerHTML = "No upcoming double stack";
 
 }
 
