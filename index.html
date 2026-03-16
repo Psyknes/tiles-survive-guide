@@ -597,7 +597,7 @@ let taskText="";
 
 switch(today){
 
-case 1:
+case 1: // Monday
 if(hour <16){
 eventText="⭐ Gear Enhancement (16:00 UTC)";
 }
@@ -610,52 +610,69 @@ eventText="✔ Gear Enhancement completed";
 taskText="• Complete stored Intel Missions<br><small>Tip: On other days DO NOT complete intel missions (except Venture/Triangle Maddie). Let them stack up to ~40.</small>";
 break;
 
-case 2:
-if(hour >=0 && hour <4){
+case 2: // Tuesday
+if(hour <4){
 eventText="⚡ ACTIVE: Construction Speed Up";
-}else{
-eventText="⭐ Construction Speed Up (00:00 UTC)";
+}
+else{
+eventText="✔ Construction Speed Up completed";
 }
 taskText="<small>Tip: Do NOT complete intel missions today. Let them accumulate.</small>";
 break;
 
-case 3:
-if(hour >=12 && hour <16){
-eventText="⚡ ACTIVE: Behemoth";
-}else{
+case 3: // Wednesday
+if(hour <12){
 eventText="⭐ Behemoth (12:00 UTC)";
+}
+else if(hour <16){
+eventText="⚡ ACTIVE: Behemoth";
+}
+else{
+eventText="✔ Behemoth completed";
 }
 taskText="• Complete stored Intel Missions<br>• Spend Clash Medals<br><small>Tip: Intel missions should be saved on other days.</small>";
 break;
 
-case 4:
-if(hour >=12 && hour <16){
-eventText="⚡ ACTIVE: Hero Fragments";
-}else{
+case 4: // Thursday
+if(hour <12){
 eventText="⭐ Hero Fragments (12:00 UTC)";
+}
+else if(hour <16){
+eventText="⚡ ACTIVE: Hero Fragments";
+}
+else{
+eventText="✔ Hero Fragments completed";
 }
 taskText="• Recruitment<br><small>Tip: Continue saving intel missions.</small>";
 break;
 
-case 5:
-if(hour >=12 && hour <16){
-eventText="⚡ ACTIVE: Construction Speed Up";
-}else{
+case 5: // Friday
+if(hour <12){
 eventText="⭐ Construction Speed Up (12:00 UTC)";
+}
+else if(hour <16){
+eventText="⚡ ACTIVE: Construction Speed Up";
+}
+else{
+eventText="✔ Construction Speed Up completed";
 }
 taskText="• Complete stored Intel Missions";
 break;
 
-case 6:
-if(hour >=16 && hour <20){
-eventText="⚡ ACTIVE: Research Speed Up";
-}else{
+case 6: // Saturday
+if(hour <16){
 eventText="⭐ Research Speed Up (16:00 UTC)";
+}
+else if(hour <20){
+eventText="⚡ ACTIVE: Research Speed Up";
+}
+else{
+eventText="✔ Research Speed Up completed";
 }
 taskText="• Enemy Kills | Eggs | Burrows<br><small>Tip: Do not complete intel missions today.</small>";
 break;
 
-case 0:
+case 0: // Sunday
 eventText="◆ Ranking stacks available";
 taskText="• Kill Infected | Fiends<br><small>Tip: Continue saving intel missions.</small>";
 break;
