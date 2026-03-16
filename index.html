@@ -598,10 +598,14 @@ let taskText="";
 switch(today){
 
 case 1:
-if(hour >=16 && hour <20){
-eventText="⚡ ACTIVE: Gear Enhancement";
-}else{
+if(hour <16){
 eventText="⭐ Gear Enhancement (16:00 UTC)";
+}
+else if(hour <20){
+eventText="⚡ ACTIVE: Gear Enhancement";
+}
+else{
+eventText="✔ Gear Enhancement completed";
 }
 taskText="• Complete stored Intel Missions<br><small>Tip: On other days DO NOT complete intel missions (except Venture/Triangle Maddie). Let them stack up to ~40.</small>";
 break;
