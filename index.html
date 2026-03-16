@@ -285,6 +285,32 @@ nextRow.style.borderRadius="6px";
 }
 
 }
+
+function convertTimes(){
+
+document.querySelectorAll(".time").forEach(el=>{
+
+let day=parseInt(el.dataset.day);
+let hour=parseInt(el.dataset.hour);
+
+let event=new Date();
+event.setUTCHours(hour,0,0,0);
+
+let diff=day-event.getUTCDay();
+if(diff<0) diff+=7;
+
+event.setUTCDate(event.getUTCDate()+diff);
+
+let local=event.toLocaleTimeString([],{
+hour:'2-digit',
+minute:'2-digit'
+});
+
+el.innerText = local + " — " + el.innerText;
+
+});
+
+}
   
 function updateTimer(){
 
