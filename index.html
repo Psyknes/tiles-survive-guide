@@ -166,9 +166,20 @@ font-size:16px;
 }  
 
 @keyframes emblemGlow{
-0%{filter: drop-shadow(0 0 4px rgba(255,215,0,.25));}
-50%{filter: drop-shadow(0 0 10px rgba(255,215,0,.45));}
-100%{filter: drop-shadow(0 0 4px rgba(255,215,0,.25));}
+0%{
+filter: drop-shadow(0 0 6px rgba(255,215,0,.45))
+        drop-shadow(0 0 10px rgba(77,166,255,.35));
+}
+
+50%{
+filter: drop-shadow(0 0 14px rgba(255,215,0,.75))
+        drop-shadow(0 0 22px rgba(77,166,255,.55));
+}
+
+100%{
+filter: drop-shadow(0 0 6px rgba(255,215,0,.45))
+        drop-shadow(0 0 10px rgba(77,166,255,.35));
+}
 }
 
 .allianceLogo{
@@ -176,7 +187,7 @@ display:block;
 margin:auto;
 height:90px;
 margin-bottom:8px;
-animation: emblemGlow 4s infinite ease-in-out;
+animation: emblemGlow 3.5s infinite ease-in-out;
 }
   
 </style>
