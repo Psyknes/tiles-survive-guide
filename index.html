@@ -2,9 +2,10 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tiles Survive Event Dashboard</title>
+<title>Tiles Survive Alliance Planner</title>
 
 <style>
+
 body{
 background:#0b0b0b;
 color:white;
@@ -16,14 +17,14 @@ padding:12px;
 h1{
 text-align:center;
 color:#ffd54a;
-margin-bottom:5px;
+margin-bottom:6px;
 }
 
 .subtitle{
 text-align:center;
 font-size:13px;
 opacity:.7;
-margin-bottom:15px;
+margin-bottom:16px;
 }
 
 .card{
@@ -38,28 +39,38 @@ margin:0 0 10px 0;
 font-size:18px;
 }
 
-.row{
-display:flex;
-justify-content:space-between;
-padding:6px 0;
-border-bottom:1px solid #222;
-}
-
-.row:last-child{border-bottom:none;}
-
-.time{
-color:#ffd54a;
-font-weight:bold;
-}
-
 .triple{border-left:5px solid gold;}
 .double{border-left:5px solid #4da6ff;}
 .save{border-left:5px solid #4dff88;}
 
+.row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:8px 0;
+border-bottom:1px solid #222;
+gap:10px;
+}
+
+.row:last-child{
+border-bottom:none;
+}
+
+.row span:first-child{
+min-width:45px;
+}
+
+.row span:last-child{
+text-align:right;
+flex:1;
+color:#ffd54a;
+}
+
 .timer{
 text-align:center;
-font-size:20px;
+font-size:22px;
 color:#4da6ff;
+margin-top:6px;
 }
 
 button{
@@ -72,6 +83,7 @@ background:#ffd54a;
 color:black;
 font-weight:bold;
 }
+
 </style>
 </head>
 
@@ -81,13 +93,10 @@ font-weight:bold;
 <div class="subtitle">Alliance Event Planner</div>
 
 <div class="card">
-<b>Your Timezone:</b> <span id="tz"></span>
-</div>
-
-<div class="card">
 <b>Next Stack Window</b>
 <div class="timer" id="timer"></div>
 </div>
+
 
 <div class="card triple">
 <h2>◆ Triple Stack (Alliance Duel | Turbo Turtle | Power Play)</h2>
@@ -146,18 +155,26 @@ font-weight:bold;
 
 </div>
 
+
 <div class="card">
 <h2>🔔 Event Reminder</h2>
-<button onclick="enableNotifications()">Enable Reminder</button>
+<button onclick="enableNotifications()">Enable Notifications</button>
 </div>
+
 
 <script>
 
-document.getElementById("tz").innerText =
-Intl.DateTimeFormat().resolvedOptions().timeZone;
+const events=[
+{d:1,h:16},
+{d:2,h:0},
+{d:3,h:12},
+{d:4,h:12},
+{d:5,h:12},
+{d:6,h:16}
+];
 
 
-/* Convert UTC event times to local timezone */
+function convertTimes(){
 
 document.querySelectorAll(".time").forEach(el=>{
 
@@ -172,27 +189,16 @@ if(diff<0) diff+=7;
 
 event.setUTCDate(event.getUTCDate()+diff);
 
-let local=event.toLocaleString([],{
-weekday:'short',
+let local=event.toLocaleTimeString([],{
 hour:'2-digit',
 minute:'2-digit'
 });
 
-el.innerText = local + " — " + el.innerText;
+el.innerText=local+" — "+el.innerText;
 
 });
 
-
-/* Triple stack events used for countdown */
-
-const events=[
-{d:1,h:16},
-{d:2,h:0},
-{d:3,h:12},
-{d:4,h:12},
-{d:5,h:12},
-{d:6,h:16}
-];
+}
 
 
 function nextEvent(){
@@ -210,7 +216,7 @@ if(diff<0) diff+=7;
 
 event.setUTCDate(event.getUTCDate()+diff);
 
-if(event>now && (!next || event<next)){
+if(event>now && (!next||event<next)){
 next=event;
 }
 
@@ -231,18 +237,44 @@ let diff=next-now;
 let h=Math.floor(diff/1000/60/60);
 let m=Math.floor((diff/1000/60)%60);
 
-document.getElementById("timer").innerText =
-h+"h "+m+"m";
+document.getElementById("timer").innerText=h+"h "+m+"m";
 
 }
 
 
-setInterval(updateTimer,1000);
-updateTimer();
+function highlightNext(){
 
+let now=new Date();
+let closest=null;
+let row=null;
 
+document.querySelectorAll(".time").forEach(el=>{
 
-/* Notification system */
+let day=parseInt(el.dataset.day);
+let hour=parseInt(el.dataset.hour);
+
+let event=new Date();
+event.setUTCHours(hour,0,0,0);
+
+let diff=day-event.getUTCDay();
+if(diff<0) diff+=7;
+
+event.setUTCDate(event.getUTCDate()+diff);
+
+if(event>now && (!closest||event<closest)){
+closest=event;
+row=el.closest(".row");
+}
+
+});
+
+if(row){
+row.style.background="#2a2a2a";
+row.style.borderRadius="6px";
+}
+
+}
+
 
 function enableNotifications(){
 
@@ -253,6 +285,13 @@ alert("Notifications enabled!");
 });
 
 }
+
+
+convertTimes();
+highlightNext();
+
+setInterval(updateTimer,1000);
+updateTimer();
 
 </script>
 
