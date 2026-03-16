@@ -152,6 +152,18 @@ font-size:18px;
 color:#ffd54a;
 margin-top:4px;
 }
+
+.activeBanner{
+background:#ffd700;
+color:black;
+text-align:center;
+font-weight:bold;
+padding:10px;
+border-radius:10px;
+margin-bottom:12px;
+display:none;
+font-size:16px;
+}  
   
 </style>
 </head>
@@ -160,7 +172,8 @@ margin-top:4px;
 
 <h1>Tiles Survive</h1>
 <div class="subtitle">Alliance Event Planner</div>
-
+<div id="activeBanner" class="activeBanner"></div>
+  
 <div class="card ghoulionCard">
 
 <div class="ghoulionRow">
@@ -437,11 +450,18 @@ minute:'2-digit'
 });
 
 timer.innerHTML=
-"<b>ACTIVE:</b> "+active.name+
+"<b>⚡ ACTIVE:</b> "+active.name+
 "<br>"+start+" - "+end;
 
+let banner=document.getElementById("activeBanner");
+
+banner.style.display="block";
+banner.innerHTML="⚡ TRIPLE STACK ACTIVE<br>"+active.name;  
+  
 }else{
 
+document.getElementById("activeBanner").style.display="none";  
+  
 let diff=next.start-now;
 
 let h=Math.floor(diff/1000/60/60);
@@ -501,7 +521,7 @@ minute:'2-digit'
 });
 
 el.innerHTML =
-"<b>ACTIVE:</b> "+active.name+
+"<b>🔹 ACTIVE:</b> "+active.name+
 "<br>"+start+" - "+end;
 
 }
@@ -600,9 +620,24 @@ let remaining = next - now;
 let h = Math.floor(remaining / 1000 / 60 / 60);
 let m = Math.floor((remaining / 1000 / 60) % 60);
 
-document.getElementById("ghoulionTimer").innerHTML =
-"Next Hunt<br>"+h+"h "+m+"m";
+let localTime = next.toLocaleTimeString([],{
+hour:'2-digit',
+minute:'2-digit'
+});
 
+let timerText =
+"Next Hunt<br>"+
+localTime+
+"<br><small>("+h+"h "+m+"m)</small>";
+
+if(remaining < 30*60*1000){
+timerText =
+"<b style='color:#ff4d4d'>⚠ PREPARE ALLIANCE</b><br>"+
+localTime+
+"<br><small>("+h+"h "+m+"m)</small>";
+}
+
+document.getElementById("ghoulionTimer").innerHTML = timerText;
 }
 
 setInterval(updateGhoulion,1000);
