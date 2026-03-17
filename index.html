@@ -416,11 +416,13 @@ function highlightTask(){
 
 let now = new Date();
 
-let activeRow = null;
-let nextRow = null;
-let nextTime = null;
+/* ---------- TRIPLE STACK ---------- */
 
-document.querySelectorAll(".time").forEach(el=>{
+let tripleActive = null;
+let tripleNext = null;
+let tripleNextTime = null;
+
+document.querySelectorAll(".card.triple .time").forEach(el=>{
 
 let day = parseInt(el.dataset.day);
 let hour = parseInt(el.dataset.hour);
@@ -437,39 +439,91 @@ let eventEnd = new Date(eventStart);
 eventEnd.setHours(eventEnd.getHours()+4);
 
 let row = el.closest(".row");
-if(!row) return;
 
 if(now >= eventStart && now < eventEnd){
-activeRow = row;
+tripleActive = row;
 }
 
 if(eventStart > now){
-if(!nextTime || eventStart < nextTime){
-nextTime = eventStart;
-nextRow = row;
+if(!tripleNextTime || eventStart < tripleNextTime){
+tripleNextTime = eventStart;
+tripleNext = row;
 }
 }
 
 });
 
-document.querySelectorAll(".card.triple .row, .card.double .row").forEach(r=>{
+/* clear triple styles */
+document.querySelectorAll(".card.triple .row").forEach(r=>{
 r.style.background="";
 r.style.boxShadow="";
 });
 
-if(activeRow){
-activeRow.style.background="#2f2a00";
-activeRow.style.borderRadius="6px";
-activeRow.style.boxShadow="0 0 8px rgba(255,215,0,0.5)";
+/* apply triple highlight */
+if(tripleActive){
+tripleActive.style.background="#2f2a00";
+tripleActive.style.boxShadow="0 0 8px rgba(255,215,0,0.5)";
 }
-else if(nextRow){
-nextRow.style.background="#1a2633";
-nextRow.style.boxShadow="0 0 6px rgba(77,166,255,.35)";
-nextRow.style.borderRadius="6px";
+else if(tripleNext){
+tripleNext.style.background="#1a2633";
+tripleNext.style.boxShadow="0 0 6px rgba(77,166,255,0.35)";
+}
+
+
+/* ---------- DOUBLE STACK ---------- */
+
+let doubleActive = null;
+let doubleNext = null;
+let doubleNextTime = null;
+
+document.querySelectorAll(".card.double .time").forEach(el=>{
+
+let day = parseInt(el.dataset.day);
+let hour = parseInt(el.dataset.hour);
+
+let eventStart = new Date();
+eventStart.setUTCHours(hour,0,0,0);
+
+let diff = day - eventStart.getUTCDay();
+if(diff < 0) diff += 7;
+
+eventStart.setUTCDate(eventStart.getUTCDate()+diff);
+
+let eventEnd = new Date(eventStart);
+eventEnd.setHours(eventEnd.getHours()+4);
+
+let row = el.closest(".row");
+
+if(now >= eventStart && now < eventEnd){
+doubleActive = row;
+}
+
+if(eventStart > now){
+if(!doubleNextTime || eventStart < doubleNextTime){
+doubleNextTime = eventStart;
+doubleNext = row;
+}
+}
+
+});
+
+/* clear double styles */
+document.querySelectorAll(".card.double .row").forEach(r=>{
+r.style.background="";
+r.style.boxShadow="";
+});
+
+/* apply double highlight */
+if(doubleActive){
+doubleActive.style.background="#2f2a00";
+doubleActive.style.boxShadow="0 0 8px rgba(255,215,0,0.5)";
+}
+else if(doubleNext){
+doubleNext.style.background="#1a2633";
+doubleNext.style.boxShadow="0 0 6px rgba(77,166,255,0.35)";
 }
 
 }
-
 
   
 function convertTimes(){
