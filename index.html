@@ -234,6 +234,11 @@ border-radius:12px;
 .appContainer{
 max-width:100%;
 }
+
+body{
+background:#0b0b0b url('tiles-bg.jpg') center/cover no-repeat;
+}
+ 
 }  
   
 </style>
@@ -435,6 +440,7 @@ let eventEnd = new Date(eventStart);
 eventEnd.setHours(eventEnd.getHours()+4);
 
 let row = el.closest(".row");
+if(!row) return;
 
 if(now >= eventStart && now < eventEnd){
 activeRow = row;
@@ -449,7 +455,7 @@ nextRow = row;
 
 });
 
-document.querySelectorAll(".row").forEach(r=>{
+document.querySelectorAll(".card.triple .row, .card.double .row").forEach(r=>{
 r.style.background="";
 r.style.boxShadow="";
 });
