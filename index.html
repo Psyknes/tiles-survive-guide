@@ -7,7 +7,7 @@
 <style>
 
 body{
-background:#0b0b0b;
+background:#0b0b0b url('tiles-bg.jpg') center/cover no-repeat fixed;
 color:white;
 font-family:system-ui;
 margin:0;
@@ -221,11 +221,27 @@ border-left:4px solid #ffd700;
 border-radius:6px;
 box-shadow:0 0 6px rgba(255,215,0,0.4);  
 }
+
+.appContainer{
+max-width:480px;
+margin:auto;
+background:rgba(0,0,0,0.4);
+padding:10px;
+border-radius:12px;
+}
+
+@media (max-width: 600px){
+.appContainer{
+max-width:100%;
+}
+}  
   
 </style>
 </head>
 
 <body>
+
+<div class="appContainer"> 
 
 <img src="chillin_logo.png" class="allianceLogo">
  
@@ -765,5 +781,7 @@ updateGhoulion();
   
 </script>
 
+</div>
+  
 </body>
 </html>
