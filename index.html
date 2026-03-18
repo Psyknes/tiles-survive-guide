@@ -753,21 +753,36 @@ break;
 
 case 3: // Wednesday
 
-if(hour <4){
-eventText="⭐ Research Speed Up (04:00 UTC)";
+let todayEvents = events.filter(e => e.d === 3);
+
+let lines = [];
+
+todayEvents.forEach(e => {
+
+let start = new Date();
+start.setUTCHours(e.h,0,0,0);
+
+let diff = e.d - start.getUTCDay();
+if(diff < 0) diff += 7;
+
+start.setUTCDate(start.getUTCDate()+diff);
+
+let end = new Date(start);
+end.setHours(end.getHours()+4);
+
+if(now >= start && now < end){
+lines.push("⚡ ACTIVE: " + e.name);
 }
-else if(hour <8){
-eventText="⚡ ACTIVE: Research Speed Up";
-}
-else if(hour <12){
-eventText="✔ Research Speed Up completed";
-}
-else if(hour <16){
-eventText="⚡ ACTIVE: Behemoth";
+else if(now < start){
+lines.push("⭐ " + e.name + " (" + String(e.h).padStart(2,'0') + ":00 UTC)");
 }
 else{
-eventText="✔ Behemoth completed";
+lines.push("✔ " + e.name + " completed");
 }
+
+});
+
+eventText = lines.join("<br>");
 
 taskText="• Complete stored Intel Missions<br>• Spend Clash Medals<br><small>Tip: Intel missions should be saved on other days (except Venture/Triangle Maddie).</small>";
 break;
