@@ -312,6 +312,7 @@ max-width:100%;
 
 <div class="row"><span>Mon</span><span class="time" data-day="1" data-hour="16">Gear Enhancement</span></div>
 <div class="row"><span>Tue</span><span class="time" data-day="2" data-hour="0">Construction Speed Up</span></div>
+<div class="row"><span>Wed</span><span class="time" data-day="3" data-hour="4">Research Speed Up</span></div>  
 <div class="row"><span>Wed</span><span class="time" data-day="3" data-hour="12">Behemoth</span></div>
 <div class="row"><span>Thu</span><span class="time" data-day="4" data-hour="12">Hero Fragments</span></div>
 <div class="row"><span>Fri</span><span class="time" data-day="5" data-hour="12">Construction Speed Up</span></div>
@@ -395,6 +396,7 @@ max-width:100%;
 const events=[
 {d:1,h:16,name:"Gear Enhancement"},
 {d:2,h:0,name:"Construction Speed Up"},
+{d:3,h:4,name:"Research Speed Up"},  
 {d:3,h:12,name:"Behemoth"},
 {d:4,h:12,name:"Hero Fragments"},
 {d:5,h:12,name:"Construction Speed Up"},
@@ -750,8 +752,15 @@ taskText="<small>Tip: Do NOT complete intel missions today (except Venture/Trian
 break;
 
 case 3: // Wednesday
-if(hour <12){
-eventText="⭐ Behemoth (12:00 UTC)";
+
+if(hour <4){
+eventText="⭐ Research Speed Up (04:00 UTC)";
+}
+else if(hour <8){
+eventText="⚡ ACTIVE: Research Speed Up";
+}
+else if(hour <12){
+eventText="✔ Research Speed Up completed";
 }
 else if(hour <16){
 eventText="⚡ ACTIVE: Behemoth";
@@ -759,6 +768,7 @@ eventText="⚡ ACTIVE: Behemoth";
 else{
 eventText="✔ Behemoth completed";
 }
+
 taskText="• Complete stored Intel Missions<br>• Spend Clash Medals<br><small>Tip: Intel missions should be saved on other days (except Venture/Triangle Maddie).</small>";
 break;
 
